@@ -50,7 +50,7 @@ class TargetPlatformProject extends ProjectDescriptor {
 	def target() '''
 		<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<?pde version="3.8"?>
-		<target name="«name»" sequenceNumber="1">
+		<target name="Â«nameÂ»" sequenceNumber="1">
 		<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
@@ -61,7 +61,7 @@ class TargetPlatformProject extends ProjectDescriptor {
 		<unit id="org.eclipse.xpand" version="0.0.0"/>
 		<unit id="org.eclipse.xtend" version="0.0.0"/>
 		<unit id="org.eclipse.xtend.typesystem.emf" version="0.0.0"/>
-		<repository location="http://download.eclipse.org/releases/neon/201606221000/"/>
+		<repository location="http://download.eclipse.org/releases/neon/201703231000/"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<unit id="org.eclipse.emf.mwe2.launcher.feature.group" version="0.0.0"/>
@@ -69,13 +69,13 @@ class TargetPlatformProject extends ProjectDescriptor {
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
-		«IF config.xtextVersion.isSnapshot»
+		Â«IF config.xtextVersion.isSnapshotÂ»
 			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/nightly/"/>
-		«ELSEIF config.xtextVersion.isStable»
+		Â«ELSEIF config.xtextVersion.isStableÂ»
 			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/milestones/"/>
-		«ELSE»
-			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/«config.xtextVersion»/"/>
-		«ENDIF»
+		Â«ELSEÂ»
+			<repository location="http://download.eclipse.org/modeling/tmf/xtext/updates/releases/Â«config.xtextVersionÂ»/"/>
+		Â«ENDIFÂ»
 		</location>
 		</locations>
 		</target>
