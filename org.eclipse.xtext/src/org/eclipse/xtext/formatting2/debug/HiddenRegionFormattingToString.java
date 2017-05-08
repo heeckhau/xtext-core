@@ -15,6 +15,7 @@ import org.eclipse.xtext.formatting2.IHiddenRegionFormatting;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -47,4 +48,8 @@ public class HiddenRegionFormattingToString implements Function<IHiddenRegionFor
 			result.add("indentDec=" + indentationDecrease);
 		return Joiner.on(";").join(result);
 	}
+	
+	private static <T> T firstNonNull(T first, T second) {
+		return first != null ? first : Preconditions.checkNotNull(second);
+	  }
 }
