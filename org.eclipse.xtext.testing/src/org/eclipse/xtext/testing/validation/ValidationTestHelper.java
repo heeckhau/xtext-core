@@ -11,6 +11,7 @@ import static com.google.common.collect.Iterables.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -35,6 +36,44 @@ import com.google.common.collect.Iterables;
  * @author Sven Efftinge
  */
 public class ValidationTestHelper {
+	
+	/**
+	 * Processing Mode to affect the ValidationTestHelper's behavior when determining matching issues.
+	 * @since 2.12
+	 */
+	public static enum Mode {
+
+		/**
+		 * Default processing mode.
+		 */
+		DEFAULT,
+
+		/**
+		 * Exact processing mode.
+		 */
+		EXACT,
+
+		/**
+		 * Regex processing mode.
+		 */
+		REGEX
+	}
+	
+	private Mode mode;
+	
+	/**
+	 * @since 2.12
+	 */
+	public ValidationTestHelper(){
+		this(Mode.DEFAULT);
+	}
+	
+	/**
+	 * @since 2.12
+	 */
+	public ValidationTestHelper(Mode mode){
+		this.mode = mode;
+	}
 
 	public List<Issue> validate(EObject model) {
 		return validate(model.eResource());
@@ -308,7 +347,7 @@ public class ValidationTestHelper {
 						EObject object = resource.getResourceSet().getEObject(input.getUriToProblem(), true);
 						if (objectType.isInstance(object)) {
 							for (String messagePart : messageParts) {
-								if (!input.getMessage().toLowerCase().contains(messagePart.toLowerCase())) {
+								if(!isValidationMessagePartMatches(input.getMessage(), messagePart)){
 									return false;
 								}
 							}
@@ -354,4 +393,20 @@ public class ValidationTestHelper {
 		return result;
 	}
 
+	/**
+	 * @since 2.12
+	 */
+	protected boolean isValidationMessagePartMatches(String inputMessage, String messagePart){
+		switch (mode) {
+		case DEFAULT:
+			return inputMessage.toLowerCase().contains(messagePart.toLowerCase());	
+		case EXACT:
+			return inputMessage.equals(messagePart);
+		case REGEX:
+			return Pattern.matches(messagePart, inputMessage);
+		default:
+			throw new IllegalArgumentException("The value of the mode variable cannot be recognized.");
+		}
+		
+	}
 }
